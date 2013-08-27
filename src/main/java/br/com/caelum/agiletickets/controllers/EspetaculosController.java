@@ -75,6 +75,11 @@ public class EspetaculosController {
 
 	@Post @Path("/sessao/{sessaoId}/reserva")
 	public void reserva(Long sessaoId, final Integer quantidade) {
+		
+		if ( quantidade == null ) {
+			validator.add(new ValidationMessage("Informe a quantidade!", ""));
+		}
+		
 		Sessao sessao = agenda.sessao(sessaoId);
 		if (sessao == null) {
 			result.notFound();
