@@ -23,7 +23,7 @@ public class JPAEspetaculoDao implements Agenda {
 
 	@Override
 	public List<Espetaculo> espetaculos() {
-		return manager.createQuery("select e from Espetaculo e").getResultList();
+		return (List<Espetaculo>) manager.createQuery("select e from Espetaculo e").getResultList();
 	}
 
 	@Override
