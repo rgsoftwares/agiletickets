@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 import org.joda.time.Weeks;
 
 @Entity
@@ -102,23 +103,26 @@ public class Espetaculo {
 		
 		List<Sessao> listaRetorno = new ArrayList<Sessao>();
 		Sessao sessao = null;
-		int qtdePeriodo = 1;
-		
+		 
 		if ( fim.isBefore(inicio) ) {
 			return listaRetorno;
 		}
 		
-		if ( periodicidade == Periodicidade.DIARIA ) {
-			qtdePeriodo = Days.daysBetween(inicio, fim).getDays();
-		} else if ( periodicidade == Periodicidade.SEMANAL ) {
-			qtdePeriodo = Weeks.weeksBetween(inicio, fim).getWeeks() + 1;
-		}
+		CalculoPeriodoDTO calculoPeriodoDTO = periodicidade.calcularPeriodo(inicio, fim);
+		int qtdePeriodo = calculoPeriodoDTO.getQtdePeriodo();
 		qtdePeriodo = (qtdePeriodo == 0 ? 1 : qtdePeriodo );
+
+		int qtdePeriodoIncremento = calculoPeriodoDTO.getQtdePeriodoIncremento();
+
 		for ( int x=1; x<=qtdePeriodo; x++ ) {
+			
 			sessao = new Sessao();
 			sessao.setInicio(inicio.toDateTime(horario));
 			sessao.setEspetaculo(this);
 			listaRetorno.add(sessao);
+			
+			inicio = inicio.plusDays(qtdePeriodoIncremento);
+			
 		}		
 		
 		return listaRetorno;
