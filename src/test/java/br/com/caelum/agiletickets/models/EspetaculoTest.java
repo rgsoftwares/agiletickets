@@ -8,6 +8,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.Test;
+import org.testng.Assert;
 
 public class EspetaculoTest {
 
@@ -97,7 +98,7 @@ public class EspetaculoTest {
 		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.DIARIA);
 
 		assertTrue((listaSessao.size() == 1));
-		
+		Assert.assertSame(listaSessao.get(0).getEspetaculo(), espetaculo);
 	}
 	
 	@Test
@@ -112,6 +113,7 @@ public class EspetaculoTest {
 		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
 
 		assertTrue((listaSessao.size() == 1));
+		Assert.assertSame(listaSessao.get(0).getEspetaculo(), espetaculo);
 		
 	}
 	
@@ -127,6 +129,9 @@ public class EspetaculoTest {
 		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.DIARIA);
 
 		assertTrue((listaSessao.size() == 10));
+		for ( int i=0; i<10; i++ ) {
+			Assert.assertSame(listaSessao.get(i).getEspetaculo(), espetaculo);
+		}
 		
 	}
 	
@@ -142,7 +147,40 @@ public class EspetaculoTest {
 		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
 
 		assertTrue((listaSessao.size() == 2));
+		for ( int i=0; i<2; i++ ) {
+			Assert.assertSame(listaSessao.get(i).getEspetaculo(), espetaculo);
+		}
 		
 	}
+	
+	@Test
+	public void naoDeveCriarSessoesSeDataFimForMaiorQueDataInicioEPeriodicidadeDiaria() {
+	
+		Espetaculo espetaculo = new Espetaculo();
+	
+		LocalDate inicio = new LocalDate().withDayOfMonth(2).withMonthOfYear(9).withYear(2013);
+		LocalDate fim = new LocalDate().withDayOfMonth(1).withMonthOfYear(9).withYear(2013);
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.DIARIA);
+
+		assertTrue((listaSessao.size() == 0));
+		
+	}	
+	
+	@Test
+	public void naoDeveCriarSessoesSeDataFimForMaiorQueDataInicioEPeriodicidadeSemanal() {
+	
+		Espetaculo espetaculo = new Espetaculo();
+	
+		LocalDate inicio = new LocalDate().withDayOfMonth(2).withMonthOfYear(9).withYear(2013);
+		LocalDate fim = new LocalDate().withDayOfMonth(1).withMonthOfYear(9).withYear(2013);
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
+
+		assertTrue((listaSessao.size() == 0));
+		
+	}		
 	
 }

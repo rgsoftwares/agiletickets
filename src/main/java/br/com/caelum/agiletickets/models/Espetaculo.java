@@ -104,14 +104,20 @@ public class Espetaculo {
 		Sessao sessao = null;
 		int qtdePeriodo = 1;
 		
+		if ( fim.isBefore(inicio) ) {
+			return listaRetorno;
+		}
+		
 		if ( periodicidade == Periodicidade.DIARIA ) {
 			qtdePeriodo = Days.daysBetween(inicio, fim).getDays();
 		} else if ( periodicidade == Periodicidade.SEMANAL ) {
 			qtdePeriodo = Weeks.weeksBetween(inicio, fim).getWeeks();
 		}
-		qtdePeriodo = (qtdePeriodo == 0 ? qtdePeriodo = 1 : qtdePeriodo );
+		qtdePeriodo = (qtdePeriodo == 0 ? 1 : qtdePeriodo );
 		for ( int x=1; x<=qtdePeriodo; x++ ) {
 			sessao = new Sessao();
+			sessao.setInicio(inicio.toDateTime(horario));
+			sessao.setEspetaculo(this);
 			listaRetorno.add(sessao);
 		}		
 		
