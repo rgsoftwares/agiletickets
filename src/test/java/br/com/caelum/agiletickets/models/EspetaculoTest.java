@@ -3,6 +3,10 @@ package br.com.caelum.agiletickets.models;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.junit.Test;
 
 public class EspetaculoTest {
@@ -80,4 +84,65 @@ public class EspetaculoTest {
 
 		return sessao;
 	}
+	
+	@Test
+	public void deveCriarUmaSessaoQuandoDataInicioForIgualDataFimEPeriodicidadeDiaria() {
+	
+		Espetaculo espetaculo = new Espetaculo();
+	
+		LocalDate inicio = new LocalDate();
+		LocalDate fim = new LocalDate();
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.DIARIA);
+
+		assertTrue((listaSessao.size() == 1));
+		
+	}
+	
+	@Test
+	public void deveCriarUmaSessaoQuandoDataInicioForIgualDataFimEPeriodicidadeSemanal() {
+	
+		Espetaculo espetaculo = new Espetaculo();
+	
+		LocalDate inicio = new LocalDate();
+		LocalDate fim = new LocalDate();
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
+
+		assertTrue((listaSessao.size() == 1));
+		
+	}
+	
+	@Test
+	public void deveCriarDezSessoesQuandoDiferencaEntrePeriodosForIgualDezDiasEPeriodicidadeDiaria() {
+	
+		Espetaculo espetaculo = new Espetaculo();
+	
+		LocalDate inicio = new LocalDate().withDayOfMonth(1).withMonthOfYear(9).withYear(2013);
+		LocalDate fim = new LocalDate().withDayOfMonth(11).withMonthOfYear(9).withYear(2013);
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.DIARIA);
+
+		assertTrue((listaSessao.size() == 10));
+		
+	}
+	
+	@Test
+	public void deveCriarDuasSessoesQuandoDiferencaEntrePeriodosForIgualDuasSemanasEPeriodicidadeSemanal() {
+	
+		Espetaculo espetaculo = new Espetaculo();
+	
+		LocalDate inicio = new LocalDate().withDayOfMonth(1).withMonthOfYear(9).withYear(2013);
+		LocalDate fim = new LocalDate().withDayOfMonth(15).withMonthOfYear(9).withYear(2013);
+		LocalTime horario = new LocalTime();
+		
+		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
+
+		assertTrue((listaSessao.size() == 2));
+		
+	}
+	
 }
