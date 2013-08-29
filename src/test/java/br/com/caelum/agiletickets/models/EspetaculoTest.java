@@ -99,6 +99,9 @@ public class EspetaculoTest {
 
 		assertTrue((listaSessao.size() == 1));
 		Assert.assertSame(listaSessao.get(0).getEspetaculo(), espetaculo);
+		
+		Assert.assertEquals(listaSessao.get(0).getInicio(), inicio.toDateTime(horario));
+		
 	}
 	
 	@Test
@@ -114,6 +117,7 @@ public class EspetaculoTest {
 
 		assertTrue((listaSessao.size() == 1));
 		Assert.assertSame(listaSessao.get(0).getEspetaculo(), espetaculo);
+		Assert.assertEquals(listaSessao.get(0).getInicio(), inicio.toDateTime(horario));
 		
 	}
 	
@@ -131,6 +135,7 @@ public class EspetaculoTest {
 		assertTrue((listaSessao.size() == 10));
 		for ( int i=0; i<10; i++ ) {
 			Assert.assertSame(listaSessao.get(i).getEspetaculo(), espetaculo);
+			Assert.assertEquals(listaSessao.get(i).getInicio(), inicio.toDateTime(horario));
 		}
 		
 	}
@@ -141,7 +146,7 @@ public class EspetaculoTest {
 		Espetaculo espetaculo = new Espetaculo();
 	
 		LocalDate inicio = new LocalDate().withDayOfMonth(1).withMonthOfYear(9).withYear(2013);
-		LocalDate fim = new LocalDate().withDayOfMonth(15).withMonthOfYear(9).withYear(2013);
+		LocalDate fim = new LocalDate().withDayOfMonth(14).withMonthOfYear(9).withYear(2013);
 		LocalTime horario = new LocalTime();
 		
 		List<Sessao> listaSessao = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
@@ -149,6 +154,7 @@ public class EspetaculoTest {
 		assertTrue((listaSessao.size() == 2));
 		for ( int i=0; i<2; i++ ) {
 			Assert.assertSame(listaSessao.get(i).getEspetaculo(), espetaculo);
+			Assert.assertEquals(listaSessao.get(i).getInicio(), inicio.toDateTime(horario));
 		}
 		
 	}

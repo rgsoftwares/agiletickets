@@ -111,7 +111,7 @@ public class Espetaculo {
 		if ( periodicidade == Periodicidade.DIARIA ) {
 			qtdePeriodo = Days.daysBetween(inicio, fim).getDays();
 		} else if ( periodicidade == Periodicidade.SEMANAL ) {
-			qtdePeriodo = Weeks.weeksBetween(inicio, fim).getWeeks();
+			qtdePeriodo = Weeks.weeksBetween(inicio, fim).getWeeks() + 1;
 		}
 		qtdePeriodo = (qtdePeriodo == 0 ? 1 : qtdePeriodo );
 		for ( int x=1; x<=qtdePeriodo; x++ ) {
