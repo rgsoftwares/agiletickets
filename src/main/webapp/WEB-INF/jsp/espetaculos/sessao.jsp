@@ -15,8 +15,17 @@
 		<p><span class="label">Duração:</span> ${sessao.duracaoEmMinutos } minutos</p>
 		<p><span class="label">Preco:</span> <fmt:formatNumber type="currency" value="${sessao.preco}" /></p>
 		<p><span class="label">Ingressos disponíveis:</span> ${sessao.ingressosDisponiveis }</p>
+		
 		<c:if test="${sessao.ingressosDisponiveis gt 0}">
 			<form action="/sessao/${sessao.id}/reserva" method="post">
+
+				<p><span class="label">Desconto:</span> 
+						<select id="tipoDesconto" name="tipoDesconto">
+						  <option value="1">Estudante</option>
+			 			  <option value="2">Idoso</option>
+						</select>
+					</p>
+
 				<h3>Reservar ingresso</h3>
 				<label for="qtde">Quantidade</label>
 				<input id="qtde" name="quantidade"/>

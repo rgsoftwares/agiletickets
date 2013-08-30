@@ -89,7 +89,7 @@ public class EspetaculosController {
 
 	@Post
 	@Path("/sessao/{sessaoId}/reserva")
-	public void reserva(Long sessaoId, final Integer quantidade) {
+	public void reserva(Long sessaoId, final Integer quantidade, Integer tipoDesconto) {
 
 		Sessao sessao = agenda.sessao(sessaoId);
 		if (sessao == null) {
@@ -102,8 +102,19 @@ public class EspetaculosController {
 		sessao.reserva(quantidade);
 
 		BigDecimal precoTotal = sessao.getPreco().multiply(BigDecimal.valueOf(quantidade));
+		
+		Double valorDesconto = 0.0;
+		if ( tipoDesconto == 1 ) {
+			// estudante
+			valorDesconto = precoTotal.multiply(new BigDecimal(0.5)).doubleValue();
+		} else if ( tipoDesconto == 2 ) {
+			// idoso
+			valorDesconto = precoTotal.multiply(new BigDecimal(0.6)).doubleValue();
+		}
 
-		result.include("message", "Sessao reservada com sucesso por " + CURRENCY.format(precoTotal));
+		precoTotal = precoTotal.subtract(new BigDecimal(valorDesconto));
+		
+		result.include("message", "Sessao reservada com sucesso por " + CURRENCY.format(precoTotal) + " com o desconto de: " + CURRENCY.format(valorDesconto));
 
 		result.redirectTo(IndexController.class).index();
 		
