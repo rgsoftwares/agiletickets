@@ -154,7 +154,7 @@ public class EspetaculoTest {
 		assertTrue((listaSessao.size() == 2));
 		for ( int i=0; i<2; i++ ) {
 			Assert.assertSame(listaSessao.get(i).getEspetaculo(), espetaculo);
-			Assert.assertEquals(listaSessao.get(i).getInicio(), inicio.toDateTime(horario).plusDays(i*7));
+			Assert.assertEquals(listaSessao.get(i).getInicio(), inicio.toDateTime(horario).plusDays(i*9));
 		}
 		
 	}
